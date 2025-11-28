@@ -1,11 +1,10 @@
-package com.theRockets.apiSenaiSongs.entities;
+package com.theRockets.apiSenaiSongs.services;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.theRockets.apiSenaiSongs.entities.Album;
 import com.theRockets.apiSenaiSongs.entities.Musica;
 import com.theRockets.apiSenaiSongs.repositories.MusicaRepository;
 
@@ -30,13 +29,10 @@ public class MusicaService {
     public Musica atualizarMusica(Long id, Musica cNovo) {
 
         Musica cVelho = repository.findById(id).get();
-
         cVelho.setTituloMusica(cNovo.getTituloMusica());
         cVelho.setTempoDuracao(cNovo.getTempoDuracao());
         cVelho.setArtista(cNovo.getArtista());
         cVelho.setAnoLancamento(cNovo.getAnoLancamento());
-
-
         return repository.save(cVelho);
 
     }

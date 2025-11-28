@@ -1,11 +1,10 @@
-package com.theRockets.apiSenaiSongs.entities;
+package com.theRockets.apiSenaiSongs.services;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.theRockets.apiSenaiSongs.entities.Album;
 import com.theRockets.apiSenaiSongs.entities.Musica;
 import com.theRockets.apiSenaiSongs.repositories.MusicaRepository;
 

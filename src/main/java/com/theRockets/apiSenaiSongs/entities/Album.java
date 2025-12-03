@@ -60,4 +60,14 @@ public class Album {
         this.musicas = musicas;
     }
 
+	public Object getQtdMusica() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void setQtdMusica(Object qtdMusica) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -1,5 +1,6 @@
 package com.theRockets.apiSenaiSongs.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.theRockets.apiSenaiSongs.enums.Genero;
 
 import jakarta.persistence.Column;
@@ -52,9 +53,10 @@ public class Musica {
 	private int anoLancamento;
 	
 	@ManyToOne
-	@JoinColumn(name = "fk_album")
+	@JoinColumn(name = "id_album")
+	@JsonBackReference
 	private Album album;
-	
+
 	public Musica() {}
 	
 	public Musica(String tituloMusica, int tempoDuracao, String artista,  int anoLancamento, Album album) {

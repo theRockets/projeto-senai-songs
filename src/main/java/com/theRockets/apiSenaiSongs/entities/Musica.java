@@ -16,6 +16,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -40,13 +41,11 @@ public class Musica {
 	@Column(name = "artista", length = 120)
 	private String artista;
 	
-	@NotBlank(message = "O gênero deve ser preenchido!")
-    @Size(min = 3, max = 100, message = "O gênero deve ter entre 3 e 100 caracteres.")
+	@NotNull(message = "O gênero deve ser preenchido!")
     @Column(name = "genero", nullable = false, length = 100)
     @Enumerated(EnumType.STRING)
     private Genero genero;
-	
-	@Max(value = 2025, message = "O ano deve estar dentro do tempo certo")
+		
 	@Column(name = "ano_lancamento")
 	@Min(value = 1900, message = "Ano de nascimento deve ser posterior a 1900")
 	@Max(value = 2100, message = "Ano de nascimento deve ser anterior a 2100")

@@ -35,7 +35,6 @@ public class Musica {
 	@Min(value = 1)
 	@Max(value = 59)
 	@Column(name = "tempo_duração", nullable = false)
-	@NotBlank(message = "O tempo de duração deve ser preenchido!")
 	private int tempoDuracao;
 	
 	@Column(name = "artista", length = 120)

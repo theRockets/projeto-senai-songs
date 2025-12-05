@@ -32,32 +32,28 @@ public class Album {
         
     public Album() {}
 
-    public Album(String nomeAlbum) {
-        this.nomeAlbum = nomeAlbum;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public Long getId() {     
-        return id;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public String getNomeAlbum() {
+		return nomeAlbum;
+	}
 
-    public String getNomeAlbum() {
-        return nomeAlbum;
-    }
+	public void setNomeAlbum(String nomeAlbum) {
+		this.nomeAlbum = nomeAlbum;
+	}
 
-    public void setNomeAlbum(String nomeAlbum) {
-        this.nomeAlbum = nomeAlbum;
-    }
+	public List<Musica> getMusicas() {
+		return musicas;
+	}
 
-    public List<Musica> getMusicas() {
-        return musicas;
-    }
-
-    public void setMusicas(List<Musica> musicas) {
-        this.musicas = musicas;
-    }
+	public void setMusicas(List<Musica> musicas) {
+		this.musicas = musicas;
+	}
 
 }

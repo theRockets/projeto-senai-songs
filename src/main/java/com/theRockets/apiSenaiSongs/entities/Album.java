@@ -13,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "tb_album")
@@ -26,15 +27,17 @@ public class Album {
     @Column(name = "nome_album")
     private String nomeAlbum;
     
-<<<<<<< Updated upstream
-=======
+    @Column(name = "url_capa", columnDefinition="TEXT") // Opcional: define nome da coluna no banco
+    private String urlCapa;
+
+    @NotNull(message = "O album deve ter um artista registrado")
+    @Column(name = "artista_responsavel", nullable = false, length = 100)
+    private String artistaResponsavel;
+    
     @JsonManagedReference
->>>>>>> Stashed changes
     @OneToMany(mappedBy = "album", cascade = CascadeType.ALL)
     private List<Musica> musicas;
-    
-    @Column(name = "url_capa", columnDefinition="TEXT") // Opcional: define nome da coluna no banco
-	private String urlCapa;
+
         
     public Album() {}
 

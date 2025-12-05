@@ -26,12 +26,15 @@ public class Album {
     @Column(name = "nome_album")
     private String nomeAlbum;
     
-    @Column(name = "url_capa")
-	private String urlCapa;
-    
+<<<<<<< Updated upstream
+=======
     @JsonManagedReference
+>>>>>>> Stashed changes
     @OneToMany(mappedBy = "album", cascade = CascadeType.ALL)
     private List<Musica> musicas;
+    
+    @Column(name = "url_capa", columnDefinition="TEXT") // Opcional: define nome da coluna no banco
+	private String urlCapa;
         
     public Album() {}
 
@@ -57,6 +60,14 @@ public class Album {
 
 	public void setMusicas(List<Musica> musicas) {
 		this.musicas = musicas;
+	}
+
+	public String getUrlCapa() {
+		return urlCapa;
+	}
+
+	public void setUrlCapa(String urlCapa) {
+		this.urlCapa = urlCapa;
 	}
 
 }

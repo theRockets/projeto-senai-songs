@@ -35,7 +35,6 @@ public class Musica {
 	@Min(value = 1)
 	@Max(value = 59)
 	@Column(name = "tempo_duração", nullable = false)
-	@NotBlank(message = "O tempo de duração deve ser preenchido!")
 	private int tempoDuracao;
 	
 	@Column(name = "artista", length = 120)
@@ -51,8 +50,8 @@ public class Musica {
 	@Max(value = 2100, message = "Ano de nascimento deve ser anterior a 2100")
 	private int anoLancamento;
 	
-	@Column(name = "url_capa", columnDefinition="TEXT") // Opcional: define nome da coluna no banco
-	private String urlCapa;
+	@Column(name = "link_musica", columnDefinition="TEXT") // Opcional: define nome da coluna no banco
+	private String linkMusica;
 	
 
 	@ManyToOne
@@ -62,13 +61,13 @@ public class Musica {
 
 	public Musica() {}
 	
-	public Musica(String tituloMusica, int tempoDuracao, String artista,  int anoLancamento, Album album, String urlCapa) {
+	public Musica(String tituloMusica, int tempoDuracao, String artista,  int anoLancamento, Album album, String linkMusica) {
 		this.tituloMusica = tituloMusica;
 		this.tempoDuracao = tempoDuracao;
 		this.artista = artista;
 		this.anoLancamento = anoLancamento;
 		this.album = album;
-		this.urlCapa = urlCapa;
+		this.linkMusica = linkMusica;
 	}
 
 	public Long getId() {
@@ -128,11 +127,11 @@ public class Musica {
 	}
 
 	public String getUrlCapa() {
-		return urlCapa;
+		return linkMusica;
 	}
 
-	public void setUrlCapa(String urlCapa) {
-		this.urlCapa = urlCapa;
+	public void setLinkMusica(String linkMusica) {
+		this.linkMusica = linkMusica;
 	}
 
 	

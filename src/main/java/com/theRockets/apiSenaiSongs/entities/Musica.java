@@ -67,7 +67,7 @@ public class Musica {
 		this.anoLancamento = anoLancamento;
 		this.album = album;
 		this.linkMusica = linkMusica;
-	}
+	}  
 
 	public Long getId() {
 		return id;

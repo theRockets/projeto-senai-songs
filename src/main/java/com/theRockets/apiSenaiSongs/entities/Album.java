@@ -30,8 +30,8 @@ public class Album {
     @Column(name = "url_capa", columnDefinition="TEXT") // Opcional: define nome da coluna no banco
     private String urlCapa;
 
-    @NotNull(message = "O album deve ter um artista registrado")
-    @Column(name = "artista_responsavel", nullable = false, length = 100)
+    @NotBlank(message = "O album deve ter um artista da mídia")
+    @Column(name = "artista_responsavel", nullable = false, length = 120)
     private String artistaResponsavel;
     
     @JsonManagedReference
@@ -40,6 +40,14 @@ public class Album {
 
         
     public Album() {}
+    
+    public Album(Long id, String nomeAlbum, String urlCapa, String artistaResponsavel) {
+    	this.id = id;
+    	this.nomeAlbum = nomeAlbum;
+    	this.urlCapa = urlCapa;
+    	this.artistaResponsavel = artistaResponsavel;
+    	
+    }
 
 	public Long getId() {
 		return id;
@@ -47,6 +55,14 @@ public class Album {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getArtistaResponsavel() {
+		return artistaResponsavel;
+	}
+
+	public void setArtistaResponsavel(String artistaResponsavel) {
+		this.artistaResponsavel = artistaResponsavel;
 	}
 
 	public String getNomeAlbum() {

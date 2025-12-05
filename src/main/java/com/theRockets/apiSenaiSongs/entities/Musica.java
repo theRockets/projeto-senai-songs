@@ -34,7 +34,7 @@ public class Musica {
 	
 	@Min(value = 1)
 	@Max(value = 59)
-	@Column(name = "tempo_duração", nullable = false)
+	@Column(name = "tempo_duracao", nullable = false)
 	private int tempoDuracao;
 	
 	@Column(name = "artista", length = 120)

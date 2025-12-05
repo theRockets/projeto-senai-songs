@@ -26,6 +26,9 @@ public class Album {
     @Column(name = "nome_album")
     private String nomeAlbum;
     
+    @Column(name = "url_capa")
+	private String urlCapa;
+    
     @JsonManagedReference
     @OneToMany(mappedBy = "album", cascade = CascadeType.ALL)
     private List<Musica> musicas;

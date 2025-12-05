@@ -1,13 +1,10 @@
-select * from tb_album;
+insert ignore into tb_album (nome_album, artista_responsavel, url_capa) values
+("qvvjfa", "Baco Exu do Blues", "https://pub-24ea3407a0f24c8394eadaa45a05aa0c.r2.dev/capas/91812/thumbnails/m_91812ca.jpg"),
+("Castelos e Ruinas", "BK",  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4g3CkaR4ViF5tpq7e3GPbPizSD4WAGtRhCw&s"),
+("O proprio", "Yago Oproprio", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFrmV804m9YJig46uoA4k-PbeDicBvX5v-ig&s"),
+("1989", "Taylor Swift", "https://akamai.sscdn.co/uploadfile/letras/albuns/d/8/1/d/416201728294476.jpg");
 
-
-insert into tb_album (nome_album, url_capa) values
-("qvvjfa", "https://pub-24ea3407a0f24c8394eadaa45a05aa0c.r2.dev/capas/91812/thumbnails/m_91812ca.jpg"),
-("Castelos e Ruinas",  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4g3CkaR4ViF5tpq7e3GPbPizSD4WAGtRhCw&s"),
-("O proprio", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFrmV804m9YJig46uoA4k-PbeDicBvX5v-ig&s"),
-("1989", "https://akamai.sscdn.co/uploadfile/letras/albuns/d/8/1/d/416201728294476.jpg");
-
-insert into tb_musicas (titulo_musica, tempo_duracao, artista_responsavel, ano_lancamento, link_musica, genero, fk_album) values
+insert ignore into tb_musicas (titulo_musica, tempo_duracao, artista, ano_lancamento, link_musica, genero, fk_album) values
 
 -- Musicas do Album qvvjfa
 ("Samba in Paris", 266, "Baco Exu do Blues", 2022, "https://youtu.be/YjsgxGDPakk?si=R32b8AJZIciUNN7C", "MPB", 1),

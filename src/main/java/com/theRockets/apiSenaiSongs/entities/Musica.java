@@ -53,7 +53,6 @@ public class Musica {
 	@Column(name = "link_musica", columnDefinition="TEXT") // Opcional: define nome da coluna no banco
 	private String linkMusica;
 	
-
 	@ManyToOne
 	@JoinColumn(name = "id_album")
 	@JsonBackReference

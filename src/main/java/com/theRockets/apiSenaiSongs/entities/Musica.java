@@ -51,9 +51,10 @@ public class Musica {
 	@Max(value = 2100, message = "Ano de nascimento deve ser anterior a 2100")
 	private int anoLancamento;
 	
-	@Column(name = "url_capa")
+	@Column(name = "url_capa", columnDefinition="TEXT") // Opcional: define nome da coluna no banco
 	private String urlCapa;
 	
+
 	@ManyToOne
 	@JoinColumn(name = "id_album")
 	@JsonBackReference

@@ -26,10 +26,7 @@ public class Album {
     @Column(name = "nome_album")
     private String nomeAlbum;
     
-<<<<<<< Updated upstream
-=======
     @JsonManagedReference
->>>>>>> Stashed changes
     @OneToMany(mappedBy = "album", cascade = CascadeType.ALL)
     private List<Musica> musicas;
     

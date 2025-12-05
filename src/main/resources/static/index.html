@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plataforma de Música</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+    <h1>🎧 SENAI SONG</h1>
+    <input type="text" id="searchInput" placeholder="Pesquisar músicas...">
+</header>
+
+<main>
+    <section class="actions">
+        <button id="btnAddAlbum">📀 Criar Álbum</button>
+        <button id="btnAddMusic">🎵 Adicionar Música</button>
+    </section>
+
+    <h2>📚 Álbums</h2>
+    <div id="albumList" class="album-grid"></div>
+
+</main>
+
+
+<div class="modal" id="modalAlbum">
+    <div class="modal-content">
+        <span class="close" data-close="modalAlbum">&times;</span>
+
+        <h2>Criar Álbum</h2>
+        <form id="formAlbum">
+            <label>Nome do Álbum:</label>
+            <input type="text" id="albumName" required>
+
+            <label>Artista:</label>
+            <input type="text" id="albumArtist" required>
+
+            <label>Capa do Álbum (URL):</label>
+            <input type="text" id="albumCover" placeholder="https://link-da-capa.jpg">
+
+            <button type="submit" class="btn-save">Criar Álbum</button>
+        </form>
+    </div>
+</div>
+
+
+<div class="modal" id="modalMusic">
+    <div class="modal-content">
+        <span class="close" data-close="modalMusic">&times;</span>
+
+        <h2>Adicionar Música</h2>
+        <form id="formMusic">
+
+            <label>Álbum:</label>
+            <select id="musicAlbum"></select>
+
+            <label>Nome da Música:</label>
+            <input type="text" id="musicName" required>
+
+            <label>Gênero:</label>
+            <select id="musicGenre">
+                <option>Pop</option>
+                <option>Rock</option>
+                <option>Trap</option>
+                <option>Hip-Hop</option>
+                <option>Funk</option>
+                <option>MPB</option>
+                <option>Eletrônica</option>
+                <option>Samba</option>
+                <option>Indie</option>
+            </select>
+
+            <button type="submit" class="btn-save">Salvar Música</button>
+
+        </form>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
+

@@ -54,7 +54,7 @@ public class Musica {
 	private String linkMusica;
 	
 	@ManyToOne
-	@JoinColumn(name = "id_album")
+	@JoinColumn(name = "fk_album")
 	@JsonBackReference
 	private Album album;
 

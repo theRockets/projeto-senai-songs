@@ -1,11 +1,9 @@
 body {
     margin: 0;
     font-family: Poppins, sans-serif;
-    background: #0e0e0e;
+    background: #12080c;
     color: #fff;
 }
-
-
 
 header {
     background: #211a1d;
@@ -26,7 +24,7 @@ header input {
     border: none;
     width: 250px;
     background: #1f0611;
-    color: #2a2828;
+    color: #ffffff;
 }
 
 
@@ -41,7 +39,7 @@ header input {
 }
 
 button {
-    background: linear-gradient(135deg, #ef5929, #d04e0d);
+    background: linear-gradient(135deg, #281618, #300f21);
     border: none;
     padding: 12px 20px;
     border-radius: 14px;
@@ -49,6 +47,11 @@ button {
     cursor: pointer;
     transition: 0.2s;
     font-weight: bold;
+
+}
+
+h2{
+    align-items: center;
 }
 
 button:hover {
@@ -65,11 +68,11 @@ button:hover {
 }
 
 .album-card {
-    background: #1b1b1b;
+    background: #226869;
     padding: 15px;
     border-radius: 18px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-    border: 1px solid #2a2a2a;
+    border: 1px solid #d0e6e9;
     transition: 0.2s;
 }
 
@@ -83,7 +86,6 @@ button:hover {
     object-fit: cover;
     border-radius: 18px;
 }
-
 
 .music-item {
     background: #262626;

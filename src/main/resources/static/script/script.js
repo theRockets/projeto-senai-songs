@@ -127,7 +127,7 @@ function updateAlbums() {
 
         controls.innerHTML = `
             <button data-action="add-to-album" data-index="${albumIndex}">➕ Adicionar música</button>
-            <button data-action="remove-album" data-index="${albumIndex}" class="btn-danger">Excluir Álbum</button>
+            <button data-action="remove-album" data-index="${albumIndex}" class="btn-danger">🗑️ Excluir Álbum</button>
         `;
 
         card.appendChild(controls);
@@ -219,7 +219,7 @@ if (albumListEl) {
         if (action === "remove-album") {
             const idx = Number(btn.dataset.index);
 
-            if (confirm(`Excluir álbum "${albums[idx].name}"?`)) {
+            if (confirm(`🗑️ Excluir álbum "${albums[idx].name}"?`)) {
                 albums.splice(idx, 1);
                 save();
                 updateAlbums();

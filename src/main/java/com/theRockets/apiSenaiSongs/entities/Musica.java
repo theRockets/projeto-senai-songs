@@ -51,6 +51,9 @@ public class Musica {
 	@Max(value = 2100, message = "Ano de nascimento deve ser anterior a 2100")
 	private int anoLancamento;
 	
+	@Column(name = "url_capa") // Opcional: define nome da coluna no banco
+	private String urlCapa;
+	
 	@ManyToOne
 	@JoinColumn(name = "id_album")
 	@JsonBackReference
@@ -58,12 +61,13 @@ public class Musica {
 
 	public Musica() {}
 	
-	public Musica(String tituloMusica, int tempoDuracao, String artista,  int anoLancamento, Album album) {
+	public Musica(String tituloMusica, int tempoDuracao, String artista,  int anoLancamento, Album album, String urlCapa) {
 		this.tituloMusica = tituloMusica;
 		this.tempoDuracao = tempoDuracao;
 		this.artista = artista;
 		this.anoLancamento = anoLancamento;
 		this.album = album;
+		this.urlCapa = urlCapa;
 	}
 
 	public Long getId() {
@@ -114,5 +118,22 @@ public class Musica {
 		this.album = album;
 	}
 
+	public Genero getGenero() {
+		return genero;
+	}
+
+	public void setGenero(Genero genero) {
+		this.genero = genero;
+	}
+
+	public String getUrlCapa() {
+		return urlCapa;
+	}
+
+	public void setUrlCapa(String urlCapa) {
+		this.urlCapa = urlCapa;
+	}
+
+	
 
 }

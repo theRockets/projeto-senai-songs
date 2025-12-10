@@ -8,9 +8,9 @@ insert ignore into tb_musicas (titulo_musica, tempo_duracao, artista, ano_lancam
 
 -- Musicas do Album qvvjfa
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-("Samba in Paris", 266, "Baco Exu do Blues", 2022, "https://youtu.be/YjsgxGDPakk?si=R32b8AJZIciUNN7C", "MPB", 1),
-("20 Ligações", 193, "Baco Exu do Blues", 2022,  "https://youtu.be/Qr-w5QZiN30?si=QTHbF0Es_g0x9XfQ", "MPB", 1),
-("Sei Partir", 176, "Baco Exu do Blues", 2022, "https://youtu.be/ELdwY0MSWio?si=xpI29eNLVqb7Iz3x", "MPB", 1),
+("Samba in Paris", 266, "Baco Exu do Blues", 2022, "https://youtu.be/YjsgxGDPakk?si=R32b8AJZIciUNN7C","RAP", 1),
+("20 Ligações", 193, "Baco Exu do Blues", 2022,  "https://youtu.be/Qr-w5QZiN30?si=QTHbF0Es_g0x9XfQ", "RAP", 1),
+("Sei Partir", 176, "Baco Exu do Blues", 2022, "https://youtu.be/ELdwY0MSWio?si=xpI29eNLVqb7Iz3x", "RAP", 1),
 -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 -- Musicas do Album Castelos e Ruinas
  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --

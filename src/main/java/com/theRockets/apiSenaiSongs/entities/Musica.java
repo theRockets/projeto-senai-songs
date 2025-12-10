@@ -123,7 +123,7 @@ public class Musica {
 		this.genero = genero;
 	}
 
-	public String getUrlCapa() {
+	public String getLinkMusica() {
 		return linkMusica;
 	}
 

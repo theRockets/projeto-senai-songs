@@ -31,9 +31,7 @@ public class Musica {
 	@NotBlank(message = "O campo titulo deve ser preenchido!")
 	@Size(min = 2, max = 120, message = "O campo titulo deve ser preenchido com no minimo 2 e maximo 120")
 	private String tituloMusica; 
-	
-	@Min(value = 1)
-	@Max(value = 59)
+
 	@Column(name = "tempo_duracao", nullable = false)
 	private int tempoDuracao;
 	

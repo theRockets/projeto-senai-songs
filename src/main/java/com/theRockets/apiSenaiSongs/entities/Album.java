@@ -34,6 +34,7 @@ public class Album {
     @Column(name = "artista_responsavel", nullable = false, length = 120)
     private String artistaResponsavel;
     
+    
     @JsonManagedReference
     @OneToMany(mappedBy = "album", cascade = CascadeType.ALL)
     private List<Musica> musicas;

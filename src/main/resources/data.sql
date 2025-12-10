@@ -27,4 +27,3 @@ insert ignore into tb_musicas (titulo_musica, tempo_duracao, artista, ano_lancam
 ("Shake It Off", 241, "Taylor Swift", 2014, "https://youtu.be/nfWlot6h_JM?si=SK2Gab0fCqhw_5cP", "POP", 4); 
 
 
-select * from tb_musicas;

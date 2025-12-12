@@ -2,7 +2,7 @@
 
 ### *Trabalho acadêmico — Desenvolvimento Full Stack (Frontend + Backend + Banco + Documentação)*
 
-Este repositório contém todas as etapas, artefatos, códigos e documentações produzidas durante o desenvolvimento do sistema de catálogo de filmes, seguindo o cronograma de 4 dias de entregas.
+Este repositório contém todas as etapas, artefatos, códigos e documentações produzidas durante o desenvolvimento do sistema de plataforma de músicas, seguindo o cronograma de 4 dias de entregas.
 
 O projeto foi desenvolvido como integrador entre as disciplinas desenvolvidas no 2º Semestre do Curso de Desenvolvimento de Sistemas no SENAI Gaspar Ricardo Junior - CFP 402 - Sorocaba/SP
 
@@ -96,6 +96,35 @@ Nome Dev 06: [Vinícius Leite Fogaça](https://github.com/ViniFogaca)
 
 ## **Backend (Spring Boot)**
 
+```
+Para executar o projeto da nossa plataforma de músicas em Spring Boot na sua máquina, siga os passos abaixo:
+    1.    Instale as ferramentas necessárias
+É preciso ter o Java 17 ou superior instalado, além de uma IDE (como IntelliJ ou Eclipse) e o Maven.
+    2.    Clone o repositório do projeto
+Baixe o projeto usando o comando:
+
+git clone https://github.com/SEU_USUARIO/SEU_REPOSITORIO.git
+
+Depois abra o projeto na sua IDE.
+
+    3.    Configure o banco de dados
+No arquivo application.properties, ajuste as informações do seu banco (como usuário, senha e URL).
+O sistema cria as tabelas automaticamente quando iniciado.
+    4.    Execute o projeto
+Na IDE, abra a classe principal (a que contém @SpringBootApplication) e clique em Run.
+Ou então, no terminal, execute:
+
+mvn spring-boot:run
+
+5.    Acesse a API
+Quando o servidor iniciar, a API ficará disponível em:
+
+http://localhost:8080
+
+Pronto! Agora você já consegue testar os endpoints usando ferramentas como Postman ou Insomnia.
+
+````
+
 ### **1. Configurar banco no `application.properties`**
 
 ```
@@ -120,36 +149,67 @@ spring.sql.init.mode = always
 
 ## **Entidades**
 
-### **🎭 Gênero**
+### **💿 Album**
 
 ```json
+
+--- entrada (post)
+
 {
-  "id": 1,
-  "name": "Ação"
+  "nomeAlbum": "Blonde",
+  "urlCapa": "https://akamai.sscdn.co/uploadfile/letras/albuns/2/3/9/0/528311701950316.jpg",
+  "artistaResponsavel": "Frank Ocean"
 }
+
+--- saída
+
+{
+  "id": 9,
+  "nomeAlbum": "Blonde",
+  "urlCapa": "https://akamai.sscdn.co/uploadfile/letras/albuns/2/3/9/0/528311701950316.jpg",
+  "artistaResponsavel": "Frank Ocean",
+  "musicas": null
+}
+
 ```
 
-### **🎬 Filme**
+### **🎶 Musica**
 
 ```json
+
+--- entrada (post)
+
 {
-  "id": 1,
-  "title": "Matrix",
-  "year": 1999,
-  "director": "Wachowski",
-  "coverUrl": "https://...jpg",
-  "genre": {
-    "id": 1,
-    "name": "Ação"
+  "tituloMusica": "Pink White",
+  "tempoDuracao": 184,
+  "artista": "Frank Ocean",
+  "anoLancamento": 2017,
+  "linkMusica": "https://www.youtube.com/watch?v=uzS3WG6__G4",
+  "genero": "RAP",
+  "album": {
+      "id": 5
   }
 }
+
+--- saída
+
+{
+  "tituloMusica": "Pink White",
+  "tempoDuracao": 184,
+  "artista": "Frank Ocean",
+  "anoLancamento": 2017,
+  "linkMusica": "https://www.youtube.com/watch?v=uzS3WG6__G4",
+  "genero": "RAP",
+  "id": 25
+}
+
 ```
 
 ---
 
 # 📡 **Endpoints**
 
-## **Album**
+## **💿 Album**
 
 | Método | Endpoint | Descrição |
 | --- | --- | --- |
@@ -158,7 +218,7 @@ spring.sql.init.mode = always
 | PUT | /album/{id} | Atualiza um álbum existente pela sua id |
 | DELETE | /album/{id} | Remove um álbum cadastrado pela sua id |
 
-## **Musica**
+## **🎶 Musica**
 
 | Método | Endpoint | Descrição |
 | --- | --- | --- |
@@ -171,22 +231,114 @@ spring.sql.init.mode = always
 
 # 🖥️ **Exemplos de Requisição**
 
-### **POST /filmes**
+### **POST /album**
 
 ```json
 {
-  "title": "Matrix",
-  "year": 1999,
-  "director": "Wachowski",
-  "coverUrl": "https://imagem.jpg",
-  "genre": { "id": 1 }
+  "nomeAlbum": "Blonde",
+  "urlCapa": "https://akamai.sscdn.co/uploadfile/letras/albuns/2/3/9/0/528311701950316.jpg",
+  "artistaResponsavel": "Frank Ocean"
+}
+
+```
+### **POST /musica**
+
+```json
+{
+  "tituloMusica": "Pink White",
+  "tempoDuracao": 184,
+  "artista": "Frank Ocean",
+  "anoLancamento": 2017,
+  "linkMusica": "https://www.youtube.com/watch?v=uzS3WG6__G4",
+  "genero": "RAP",
+  "album": {
+      "id": 25
+  }
+}
+
+```
+### **PUT /musica/25**
+
+```json
+{
+  "tituloMusica": "Pink + White",
+  "tempoDuracao": 184,
+  "artista": "Frank Ocean ft. Beyonce",
+  "anoLancamento": 2017,
+  "linkMusica": "https://www.youtube.com/watch?v=uzS3WG6__G4",
+  "genero": "RAP",
+  "album": {
+      "id": 5
+  }
+}
+
+```
+
+### **PUT /album/2**
+
+```json
+{
+  "nomeAlbum": "Castelos e Ruínas",
+  "urlCapa": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4g3CkaR4ViF5tqp7e3GPBPizSD4WAGtRhCw&s",
+  "artistaResponsavel": "Abebe Bikila"
+}
+
+```
+
+### **DELETE /musica/25**
+
+```json
+  "A música com a ID 25 foi removida."
+```
+
+### **DELETE /album/6**
+
+```json
+  "O álbum com a ID 6 foi removido."
+```
+
+### **GET /album -- exemplo**
+
+```json
+
+  {
+        "id": 2,
+        "nomeAlbum": "Castelos e Ruinas",
+        "urlCapa": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4g3CkaR4ViF5tpq7e3GPbPizSD4WAGtRhCw&s",
+        "artistaResponsavel": "BK",
+        "musicas": [
+            {
+                "tituloMusica": "Quadros",
+                "tempoDuracao": 309,
+                "artista": "BK",
+                "anoLancamento": 2016,
+                "linkMusica": "https://youtu.be/Lxaf6GZv_7U?si=NZgMCt4GkO9nxJD5",
+                "genero": "RAP",
+                "id": 4
+            }
+         ]
 }
 ```
 
+### **GET /musica -- exemplo**
+
+```json
+
+   {
+        "tituloMusica": "Samba in Paris",
+        "tempoDuracao": 266,
+        "artista": "Baco Exu do Blues",
+        "anoLancamento": 2022,
+        "linkMusica": "https://youtu.be/YjsgxGDPakk?si=R32b8AJZIciUNN7C",
+        "genero": "RAP",
+        "id": 1
+    }
+
+```
 ---
 
 # 📎 **Links Importantes**
 
 🔗 **Trello:** [(https://trello.com/b/WHNa3oHH/projeto-final)]
 
-🔗 **Figma:** *adicionar*
+🔗 **Figma:** [(https://www.figma.com/design/QpYR5ImKxj5yMRHrraH4HT/Senai-Songs---Prot%C3%B3tipo?node-id=0-1&p=f&m=draw)]

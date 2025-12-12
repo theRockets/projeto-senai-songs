@@ -1,16 +1,16 @@
-// ---------- CONFIG ----------
+
 const API_BASE = "http://localhost:8080"; // ajuste se necessário
 const ALBUMS = `${API_BASE}/album`;
 const MUSIC = `${API_BASE}/musica`;
 
-// ---------- HELPERS ----------
+
 const $ = s => document.querySelector(s);
 const $id = id => document.getElementById(id);
 const esc = v => String(v ?? "");
 const toSec = t => { if (!t) return 0; const p = t.split(':'); return p.length === 2 ? (+p[0] * 60 + +p[1]) : (+t || 0); };
 const toMMSS = s => (!s ? "-" : `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`);
 
-// ---------- STATE ----------
+
 let albums = [];
 const refs = {
     albumList: $id("albumList"),
@@ -35,18 +35,18 @@ const refs = {
     musicEditIndex: $id("musicEditIndex")
 };
 
-// ---------- API ----------
+
 async function apiGET(url) { const r = await fetch(url); if (!r.ok) throw r; return r.json(); }
 async function apiPOST(url, p) { const r = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(p) }); if (!r.ok) throw r; return r.json(); }
 async function apiPUT(url, p) { const r = await fetch(url, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(p) }); if (!r.ok) throw r; return r.json(); }
 async function apiDEL(url) { const r = await fetch(url, { method: "DELETE" }); if (!r.ok) throw r; return; }
 
-// ---------- LOAD / NORMALIZE ----------
+
 async function loadAlbums() {
     try {
         const data = await apiGET(ALBUMS);
         albums = (Array.isArray(data) ? data : []);
-        // normalize: ensure fields for UI
+       
         albums = albums.map(a => ({
             id: a.id,
             nomeAlbum: a.nomeAlbum || a.name || "",
@@ -54,7 +54,7 @@ async function loadAlbums() {
             urlCapa: a.urlCapa || a.cover || "",
             musicas: (a.musicas || a.musicas === null ? (a.musicas || []) : (a.songs || []))
         }));
-        // create ui-friendly songs array inside each album
+    
         albums.forEach(a => {
             a.songs = (a.musicas || []).map(m => ({
                 id: m.id,
@@ -72,7 +72,7 @@ async function loadAlbums() {
     }
 }
 
-// ---------- RENDER ----------
+
 function reloadAlbumSelect() {
     const sel = refs.musicAlbum; sel.innerHTML = "";
     albums.forEach((a, idx) => sel.appendChild(Object.assign(document.createElement("option"), { value: idx, textContent: `${a.nomeAlbum} — ${a.artistaResponsavel}` })));
@@ -128,7 +128,7 @@ function renderAlbumSongs(ai) {
         refs.albumSongs.appendChild(row);
     });
     refs.viewTotalSongs.textContent = album.songs.length;
-    // delegate menu actions
+    
     refs.albumSongs.querySelectorAll(".more-menu button").forEach(b => {
         b.addEventListener("click", async e => {
             const a = Number(b.dataset.album), s = Number(b.dataset.song);
@@ -157,7 +157,7 @@ function renderAllSongs() {
     });
 }
 
-// ---------- UI ACTIONS ----------
+
 function openAlbum(index) { renderAlbumSongs(index); }
 function openEditAlbum(index) {
     const a = albums[index]; if (!a) return;
@@ -208,7 +208,6 @@ refs.searchInput.addEventListener("input", () => {
     });
 });
 
-// ---------- FORM SUBMITS ----------
 refs.formAlbum.addEventListener("submit", async e => {
     e.preventDefault();
     const idx = Number(refs.albumEditIndex.value);
@@ -248,8 +247,8 @@ refs.formMusic.addEventListener("submit", async e => {
     } catch (err) { alert("Erro ao salvar música: " + err); }
 });
 
-// ---------- REFRESH ----------
+
 async function refreshAll() { await loadAlbums(); reloadAlbumSelect(); updateAlbumsView(); renderAllSongs(); }
 
-// ---------- INIT ----------
+
 (async function init() { try { await refreshAll(); } catch (e) { console.error(e); } })();

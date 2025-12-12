@@ -50,7 +50,7 @@ public class AlbumController {
 	@DeleteMapping("/{id}")
 	public String excluirAlbum(@PathVariable Long id) {
 		service.deletarAlbum(id);
-		return "A música com a ID " + id + " foi removida.";
+		return "O album com a ID " + id + " foi removido.";
 	}
 
 }

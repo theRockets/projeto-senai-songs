@@ -257,7 +257,7 @@ spring.sql.init.mode = always
 }
 
 ```
-### **PUT /musica**
+### **PUT /musica/25**
 
 ```json
 {

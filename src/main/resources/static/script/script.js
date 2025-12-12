@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 // ---------- CONFIG ----------
 const API_BASE = "http://localhost:8080"; // ajuste se necessário
 const ALBUMS = `${API_BASE}/album`;
@@ -255,4 +253,3 @@ async function refreshAll() { await loadAlbums(); reloadAlbumSelect(); updateAlb
 
 // ---------- INIT ----------
 (async function init() { try { await refreshAll(); } catch (e) { console.error(e); } })();
->>>>>>> a987bbde3895f47204d24619246951d51ac5e0b2

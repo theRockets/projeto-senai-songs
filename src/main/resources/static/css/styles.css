@@ -4,8 +4,8 @@
 
 body {
     margin: 0;
-    font-family: 'Staatliches';
-    background: #12080c;
+    font-family: "Archivo Black", sans-serif;
+ background: #12080c;
     color: #fff;
     -webkit-font-smoothing: antialiased;
 }
@@ -436,7 +436,7 @@ header {
 
 .actions-inline button {
     background-color: #31101e;
-    color: white;  
+    color: white;
     padding: 8px 16px;
     border-radius: 12px;
     cursor: pointer;
@@ -473,6 +473,15 @@ header {
 
 @media (max-width: 768px) {
 
+    .sidebar-footer {
+        border-top: none;
+        border-left: 1px solid #2c2c2c;
+        padding: 6px 12px;
+        text-align: right;
+        white-space: nowrap;
+        font-size: 12px;
+    }
+
     .sidebar {
         position: fixed;
         width: 100%;
@@ -484,6 +493,7 @@ header {
         gap: 16px;
         border-bottom: 1px solid #2c2c2c;
         overflow-x: auto;
+        justify-content: space-between;
     }
 
     .menu {
@@ -592,3 +602,25 @@ header {
         width: 92%;
     }
 }
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; 
+}
+
+.sidebar-footer {
+    margin-top: auto;
+    padding: 14px 10px;
+    text-align: center;
+    color: #8c8c8c;
+    font-size: 13px;
+    border-top: 1px solid #2c2c2c;
+}
+
+.sidebar-footer p {
+    margin: 0;
+    font-weight: 600;
+    color: #bdbdbd;
+}
+

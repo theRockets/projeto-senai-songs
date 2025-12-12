@@ -149,7 +149,7 @@ spring.sql.init.mode = always
 
 ## **Entidades**
 
-### **🎭 Album**
+### **💿 Album**
 
 ```json
 
@@ -173,7 +173,7 @@ spring.sql.init.mode = always
 
 ```
 
-### **🎬 Musica**
+### **🎶 Musica**
 
 ```json
 
@@ -209,7 +209,7 @@ spring.sql.init.mode = always
 
 # 📡 **Endpoints**
 
-## **Album**
+## **💿 Album**
 
 | Método | Endpoint | Descrição |
 | --- | --- | --- |
@@ -218,7 +218,7 @@ spring.sql.init.mode = always
 | PUT | /album/{id} | Atualiza um álbum existente pela sua id |
 | DELETE | /album/{id} | Remove um álbum cadastrado pela sua id |
 
-## **Musica**
+## **🎶 Musica**
 
 | Método | Endpoint | Descrição |
 | --- | --- | --- |
@@ -281,7 +281,6 @@ spring.sql.init.mode = always
   "nomeAlbum": "Castelos e Ruínas",
   "urlCapa": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4g3CkaR4ViF5tqp7e3GPBPizSD4WAGtRhCw&s",
   "artistaResponsavel": "Abebe Bikila"
-  }
 }
 
 ```
@@ -317,7 +316,8 @@ spring.sql.init.mode = always
                 "genero": "RAP",
                 "id": 4
             }
-
+         ]
+}
 ```
 
 ### **GET /musica -- exemplo**

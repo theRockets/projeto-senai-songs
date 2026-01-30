@@ -1,254 +1,327 @@
+// URL base da sua API Java Spring Boot
+const API_URL = "http://localhost:8080"; 
 
-const API_BASE = "http://localhost:8080"; // ajuste se necessário
-const ALBUMS = `${API_BASE}/album`;
-const MUSIC = `${API_BASE}/musica`;
+// --- ELEMENTOS DO DOM ---
+const modalAlbum = document.getElementById("modalAlbum");
+const modalMusic = document.getElementById("modalMusic");
+const formAlbum = document.getElementById("formAlbum");
+const formMusic = document.getElementById("formMusic");
+const albumListDiv = document.getElementById("albumList");
+const allSongsListDiv = document.getElementById("allSongsList");
+const albumPage = document.getElementById("albumPage");
+const mainPage = document.getElementById("mainPage");
+const searchInput = document.getElementById("searchInput");
+const musicAlbumSelect = document.getElementById("musicAlbum");
 
+// --- INICIALIZAÇÃO ---
+document.addEventListener("DOMContentLoaded", () => {
+    fetchAlbums();
+    fetchSongs();
+    setupEventListeners();
+});
 
-const $ = s => document.querySelector(s);
-const $id = id => document.getElementById(id);
-const esc = v => String(v ?? "");
-const toSec = t => { if (!t) return 0; const p = t.split(':'); return p.length === 2 ? (+p[0] * 60 + +p[1]) : (+t || 0); };
-const toMMSS = s => (!s ? "-" : `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`);
+// --- REQUISIÇÕES API (AJAX/FETCH) ---
 
+// Função genérica para chamar o Backend
+async function apiRequest(endpoint, method = "GET", body = null) {
+    try {
+        const options = {
+            method: method,
+            headers: { "Content-Type": "application/json" }
+        };
+        if (body) options.body = JSON.stringify(body);
 
-let albums = [];
-const refs = {
-    albumList: $id("albumList"),
-    allSongsList: $id("allSongsList"),
-    btnAddAlbum: $id("btnAddAlbum"),
-    btnAddMusic: $id("btnAddMusic"),
-    searchInput: $id("searchInput"),
-    modalAlbum: $id("modalAlbum"),
-    modalMusic: $id("modalMusic"),
-    formAlbum: $id("formAlbum"),
-    formMusic: $id("formMusic"),
-    musicAlbum: $id("musicAlbum"),
-    albumPage: $id("albumPage"),
-    viewAlbumName: $id("viewAlbumName"),
-    viewAlbumArtist: $id("viewAlbumArtist"),
-    viewTotalSongs: $id("viewTotalSongs"),
-    albumSongs: $id("albumSongs"),
-    btnBackAlbums: $id("btnBackAlbums"),
-    btnAddMusicInside: $id("btnAddMusicInside"),
-    albumEditIndex: $id("albumEditIndex"),
-    musicEditAlbum: $id("musicEditAlbum"),
-    musicEditIndex: $id("musicEditIndex")
+        const response = await fetch(`${API_URL}${endpoint}`, options);
+
+        if (!response.ok) throw new Error(`Erro na requisição: ${response.status}`);
+        
+        // Retorna JSON se houver conteúdo, senão null
+        const text = await response.text();
+        return text ? JSON.parse(text) : null;
+
+    } catch (error) {
+        console.error("Erro API:", error);
+        alert("Erro ao conectar com o servidor. Verifique se o Spring Boot está rodando.");
+        return null;
+    }
+}
+
+// 1. Carregar Álbuns
+async function fetchAlbums() {
+    const albums = await apiRequest("/albums"); // GET /albums
+    if (albums) renderAlbums(albums);
+}
+
+// 2. Carregar Músicas
+async function fetchSongs() {
+    const songs = await apiRequest("/musics"); // GET /musics
+    if (songs) renderSongs(songs);
+}
+
+// --- RENDERIZAÇÃO NA TELA ---
+
+function renderAlbums(albums) {
+    albumListDiv.innerHTML = "";
+    musicAlbumSelect.innerHTML = "<option value=''>Selecione um álbum</option>";
+
+    albums.forEach(album => {
+        // Popula o select do modal de música
+        const option = document.createElement("option");
+        option.value = album.id;
+        option.textContent = album.name;
+        musicAlbumSelect.appendChild(option);
+
+        // Cria o card do álbum
+        const card = document.createElement("div");
+        card.className = "album-card";
+        card.innerHTML = `
+            <div class="album-options">
+                <button class="btn-icon" onclick="editAlbum(${album.id}, event)">✎</button>
+                <button class="btn-icon" onclick="deleteAlbum(${album.id}, event)">✕</button>
+            </div>
+            <img src="${album.coverUrl || 'img/default-cover.png'}" class="album-cover" alt="Capa">
+            <div class="album-info">
+                <h3>${album.name}</h3>
+                <p>${album.artist} • ${album.year || ''}</p>
+            </div>
+        `;
+        // Ao clicar no card (fora dos botões), abre detalhes
+        card.addEventListener("click", (e) => {
+            if (e.target.tagName !== "BUTTON") openAlbumPage(album);
+        });
+
+        albumListDiv.appendChild(card);
+    });
+}
+
+function renderSongs(songs, targetDiv = allSongsListDiv) {
+    targetDiv.innerHTML = "";
+    
+    if(songs.length === 0) {
+        targetDiv.innerHTML = "<p style='text-align:center; color:#666;'>Nenhuma música encontrada.</p>";
+        return;
+    }
+
+    songs.forEach(song => {
+        const row = document.createElement("div");
+        row.className = "song-row";
+        
+        // Tenta pegar a capa do álbum associado, se disponível no objeto song
+        const cover = song.album && song.album.coverUrl ? song.album.coverUrl : 'img/default-music.png';
+        const albumName = song.album ? song.album.name : 'Single';
+
+        row.innerHTML = `
+            <div class="song-left">
+                <img src="${cover}" class="song-cover">
+                <div class="song-info">
+                    <p class="song-name">${song.name}</p>
+                    <p class="song-genre">${song.genre} • ${albumName}</p>
+                </div>
+            </div>
+            <div class="song-actions">
+                <span style="font-size:12px; color:#aaa; margin-right:10px;">${song.duration || '--:--'}</span>
+                <button class="btn-small" onclick="editMusic(${song.id})">Editar</button>
+                <button class="btn-small btn-delete" onclick="deleteMusic(${song.id})">Excluir</button>
+            </div>
+        `;
+        targetDiv.appendChild(row);
+    });
+}
+
+// --- FUNÇÕES DE NAVEGAÇÃO ---
+
+function showMainPage() {
+    albumPage.style.display = "none";
+    mainPage.style.display = "block";
+    fetchAlbums(); // Recarrega dados
+    fetchSongs();
+}
+
+function openAlbumPage(album) {
+    mainPage.style.display = "none";
+    albumPage.style.display = "block";
+
+    // Preenche cabeçalho
+    document.getElementById("viewAlbumName").textContent = album.name;
+    document.getElementById("viewAlbumArtist").textContent = album.artist;
+    document.getElementById("viewAlbumYear").textContent = album.year || "N/A";
+
+    // Configura botão "Adicionar música neste álbum" para abrir modal já com o ID
+    const btnInside = document.getElementById("btnAddMusicInside");
+    btnInside.onclick = () => {
+        openModal(modalMusic);
+        document.getElementById("formMusic").reset();
+        document.getElementById("musicId").value = "";
+        musicAlbumSelect.value = album.id; // Pré-seleciona
+    };
+
+    // Carrega músicas deste álbum específico
+    // Assumindo endpoint: GET /albums/{id}/musics OU filtrar no front
+    loadAlbumSongs(album.id); 
+}
+
+async function loadAlbumSongs(albumId) {
+    // Opção 1: Backend filtra (Ideal) -> apiRequest(`/musics?albumId=${albumId}`)
+    // Opção 2: Front filtra (Usado aqui para garantir funcionamento simples)
+    const allSongs = await apiRequest("/musics");
+    if(allSongs) {
+        // Filtra músicas onde o ID do álbum bate (ajuste conforme seu JSON de retorno)
+        const albumSongs = allSongs.filter(s => s.album && s.album.id === albumId);
+        renderSongs(albumSongs, document.getElementById("albumSongs"));
+    }
+}
+
+// --- MODAIS ---
+
+function setupEventListeners() {
+    // Abrir modais
+    document.getElementById("btnAddAlbum").onclick = () => {
+        document.getElementById("formAlbum").reset();
+        document.getElementById("albumId").value = ""; // Limpa ID para criar novo
+        document.getElementById("modalAlbumTitle").innerText = "Criar Álbum";
+        openModal(modalAlbum);
+    };
+
+    document.getElementById("btnAddMusic").onclick = () => {
+        document.getElementById("formMusic").reset();
+        document.getElementById("musicId").value = "";
+        document.getElementById("modalMusicTitle").innerText = "Adicionar Música";
+        openModal(modalMusic);
+    };
+
+    // Fechar modais
+    document.querySelectorAll(".close, .btn-cancel").forEach(el => {
+        el.onclick = () => {
+            modalAlbum.classList.remove("show");
+            modalMusic.classList.remove("show");
+        };
+    });
+
+    // Botão Voltar
+    document.getElementById("btnBackAlbums").onclick = showMainPage;
+
+    // Pesquisa
+    searchInput.addEventListener("input", (e) => {
+        const term = e.target.value.toLowerCase();
+        // Filtra visualmente os cards (melhoria: fazer busca no backend)
+        const cards = document.querySelectorAll(".album-card");
+        cards.forEach(card => {
+            const text = card.innerText.toLowerCase();
+            card.style.display = text.includes(term) ? "block" : "none";
+        });
+    });
+
+    // Submit Forms
+    formAlbum.addEventListener("submit", handleAlbumSubmit);
+    formMusic.addEventListener("submit", handleMusicSubmit);
+}
+
+function openModal(modal) {
+    modal.classList.add("show");
+}
+
+// --- CRUD: ÁLBUNS ---
+
+async function handleAlbumSubmit(e) {
+    e.preventDefault();
+    const id = document.getElementById("albumId").value;
+    const albumData = {
+        name: document.getElementById("albumName").value,
+        artist: document.getElementById("albumArtist").value,
+        year: document.getElementById("albumYear").value,
+        coverUrl: document.getElementById("albumCover").value
+    };
+
+    let result;
+    if (id) {
+        // Editar (PUT)
+        result = await apiRequest(`/albums/${id}`, "PUT", albumData);
+    } else {
+        // Criar (POST)
+        result = await apiRequest("/albums", "POST", albumData);
+    }
+
+    if (result) {
+        modalAlbum.classList.remove("show");
+        fetchAlbums(); // Atualiza lista
+    }
+}
+
+window.deleteAlbum = async function(id, event) {
+    if(event) event.stopPropagation(); // Evita abrir o álbum ao clicar em excluir
+    if (confirm("Tem certeza que deseja excluir este álbum?")) {
+        await apiRequest(`/albums/${id}`, "DELETE");
+        fetchAlbums();
+    }
 };
 
-
-async function apiGET(url) { const r = await fetch(url); if (!r.ok) throw r; return r.json(); }
-async function apiPOST(url, p) { const r = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(p) }); if (!r.ok) throw r; return r.json(); }
-async function apiPUT(url, p) { const r = await fetch(url, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(p) }); if (!r.ok) throw r; return r.json(); }
-async function apiDEL(url) { const r = await fetch(url, { method: "DELETE" }); if (!r.ok) throw r; return; }
-
-
-async function loadAlbums() {
-    try {
-        const data = await apiGET(ALBUMS);
-        albums = (Array.isArray(data) ? data : []);
-       
-        albums = albums.map(a => ({
-            id: a.id,
-            nomeAlbum: a.nomeAlbum || a.name || "",
-            artistaResponsavel: a.artistaResponsavel || a.artist || "",
-            urlCapa: a.urlCapa || a.cover || "",
-            musicas: (a.musicas || a.musicas === null ? (a.musicas || []) : (a.songs || []))
-        }));
+window.editAlbum = async function(id, event) {
+    if(event) event.stopPropagation();
     
-        albums.forEach(a => {
-            a.songs = (a.musicas || []).map(m => ({
-                id: m.id,
-                tituloMusica: m.tituloMusica || m.name || "",
-                genero: m.genero || m.genre || "POP",
-                tempoDuracao: m.tempoDuracao || 0,
-                timeLabel: toMMSS(m.tempoDuracao || 0),
-                __raw: m
-            }));
-        });
-    } catch (e) {
-        console.error(e);
-        alert("Erro ao carregar álbuns. Veja console.");
-        albums = [];
+    // Busca dados atuais (ou pega do DOM/Array local)
+    // Aqui farei um fetch para garantir dados frescos
+    const album = await apiRequest(`/albums/${id}`);
+    
+    if (album) {
+        document.getElementById("albumId").value = album.id;
+        document.getElementById("albumName").value = album.name;
+        document.getElementById("albumArtist").value = album.artist;
+        document.getElementById("albumYear").value = album.year;
+        document.getElementById("albumCover").value = album.coverUrl;
+        
+        document.getElementById("modalAlbumTitle").innerText = "Editar Álbum";
+        openModal(modalAlbum);
+    }
+};
+
+// --- CRUD: MÚSICAS ---
+
+async function handleMusicSubmit(e) {
+    e.preventDefault();
+    const id = document.getElementById("musicId").value;
+    const albumId = document.getElementById("musicAlbum").value;
+    
+    const musicData = {
+        name: document.getElementById("musicName").value,
+        genre: document.getElementById("musicGenre").value,
+        duration: document.getElementById("musicTime").value,
+        // Backend Spring geralmente espera o objeto Album ou o ID
+        album: { id: albumId } 
+    };
+
+    let result;
+    if (id) {
+        result = await apiRequest(`/musics/${id}`, "PUT", musicData);
+    } else {
+        result = await apiRequest("/musics", "POST", musicData);
+    }
+
+    if (result) {
+        modalMusic.classList.remove("show");
+        fetchSongs(); // Atualiza lista geral
+        if(albumPage.style.display === 'block') loadAlbumSongs(albumId); // Atualiza página interna se aberta
     }
 }
 
-
-function reloadAlbumSelect() {
-    const sel = refs.musicAlbum; sel.innerHTML = "";
-    albums.forEach((a, idx) => sel.appendChild(Object.assign(document.createElement("option"), { value: idx, textContent: `${a.nomeAlbum} — ${a.artistaResponsavel}` })));
-}
-function updateAlbumsView() {
-    const root = refs.albumList; root.innerHTML = "";
-    if (!albums.length) { root.innerHTML = `<div style="color:#cfcfcf;padding:12px">Nenhum álbum criado ainda.</div>`; return; }
-    const showLimit = 5;
-    const sorted = [...albums].sort((x, y) => (y.id || 0) - (x.id || 0));
-    sorted.slice(0, showLimit).forEach(a => {
-        const idx = albums.indexOf(a);
-        const cover = a.urlCapa || "https://via.placeholder.com/300x200?text=Capa";
-        const card = document.createElement("div"); card.className = "album-card";
-        card.innerHTML = `<img src="${esc(cover)}" class="album-cover"><div class="album-info"><h3>${esc(a.nomeAlbum)}</h3><p>${esc(a.artistaResponsavel)}</p></div>
-      <div class="album-options"><button data-action="edit-album" data-index="${idx}">✏️</button><button data-action="delete-album" data-index="${idx}">🗑️</button></div>`;
-        card.addEventListener("click", e => { if (e.target.closest("button")) return; openAlbum(idx); });
-        root.appendChild(card);
-    });
-    if (albums.length > showLimit) {
-        const more = document.createElement("div"); more.className = "album-card view-all"; more.innerHTML = `<div>Ver mais<br><small style="opacity:.8">${albums.length} álbuns</small></div>`;
-        more.addEventListener("click", openAllAlbumsView); root.appendChild(more);
+window.deleteMusic = async function(id) {
+    if (confirm("Excluir esta música?")) {
+        await apiRequest(`/musics/${id}`, "DELETE");
+        fetchSongs();
+        // Se estiver dentro da página de um álbum, recarrega a lista dele também
+        // (Lógica simplificada: recarrega main page e se tiver album ID salvo, recarrega ele)
     }
-}
-function openAllAlbumsView() {
-    const wrapper = document.createElement("div"); wrapper.style.display = "flex"; wrapper.style.flexDirection = "column"; wrapper.style.gap = "12px";
-    wrapper.innerHTML = `<button class="btn-back">⬅ Voltar</button><h3>Todos os álbuns</h3>`;
-    albums.slice().sort((a, b) => (b.id || 0) - (a.id || 0)).forEach(a => {
-        const row = document.createElement("div"); row.className = "song-row"; row.style.cursor = "pointer";
-        const cover = a.urlCapa || "https://via.placeholder.com/100";
-        row.innerHTML = `<div style="display:flex;align-items:center;gap:12px"><img src="${esc(cover)}" style="width:58px;height:58px;border-radius:8px;object-fit:cover;"><div><div style="font-weight:700">${esc(a.nomeAlbum)}</div><div style="color:#cfcfcf;font-size:13px">${esc(a.artistaResponsavel)}</div></div></div>
-      <div style="display:flex;gap:8px;align-items:center"><button data-action="open-album" data-index="${albums.indexOf(a)}">Abrir</button><button data-action="edit-album" data-index="${albums.indexOf(a)}">Editar</button><button data-action="delete-album" data-index="${albums.indexOf(a)}">Excluir</button></div>`;
-        wrapper.appendChild(row);
-    });
-    refs.albumList.innerHTML = ""; wrapper.querySelector(".btn-back").addEventListener("click", updateAlbumsView);
-    wrapper.querySelectorAll("button[data-action]").forEach(b => b.addEventListener("click", async e => {
-        const action = b.dataset.action, idx = Number(b.dataset.index);
-        if (action === "open-album") openAlbum(idx);
-        if (action === "edit-album") openEditAlbum(idx);
-        if (action === "delete-album") { if (!confirm("Excluir álbum?")) return; try { await apiDEL(`${ALBUMS}/${albums[idx].id}`); await refreshAll(); } catch (err) { alert("Erro: " + err); } }
-    }));
-    refs.albumList.appendChild(wrapper);
-}
-function renderAlbumSongs(ai) {
-    const album = albums[ai]; if (!album) return;
-    refs.viewAlbumName.textContent = album.nomeAlbum; refs.viewAlbumArtist.textContent = album.artistaResponsavel;
-    refs.albumPage.style.display = "block";
-    refs.albumSongs.innerHTML = "";
-    album.songs.slice().sort((x, y) => (x.__raw?.id || 0) - (y.__raw?.id || 0)).forEach((s, si) => {
-        const row = document.createElement("div"); row.className = "song-row";
-        const cover = album.urlCapa || "https://via.placeholder.com/100";
-        row.innerHTML = `<div class="song-left"><div class="song-index">${si + 1}</div><img src="${esc(cover)}" class="song-cover"/><div class="song-info"><p class="song-name">${esc(s.tituloMusica)}</p><p class="song-genre">${esc(s.genero)}</p></div></div>
-      <div style="display:flex;align-items:center;gap:12px;"><div class="song-time">${esc(s.timeLabel)}</div><div class="song-more"><button class="more-btn">⋮</button><div class="more-menu"><button data-action="edit-song" data-album="${ai}" data-song="${si}">Editar</button><button data-action="remove-song" data-album="${ai}" data-song="${si}">Excluir</button></div></div></div>`;
-        refs.albumSongs.appendChild(row);
-    });
-    refs.viewTotalSongs.textContent = album.songs.length;
-    
-    refs.albumSongs.querySelectorAll(".more-menu button").forEach(b => {
-        b.addEventListener("click", async e => {
-            const a = Number(b.dataset.album), s = Number(b.dataset.song);
-            if (b.dataset.action === "edit-song") openEditSong(a, s);
-            if (b.dataset.action === "remove-song") { if (!confirm("Excluir música?")) return; try { await apiDEL(`${MUSIC}/${albums[a].songs[s].id}`); await refreshAll(); if (refs.albumPage.style.display === "block" && refs.viewAlbumName.textContent === albums[a].nomeAlbum) renderAlbumSongs(a); } catch (err) { alert("Erro: " + err); } }
-        });
-    });
-}
-function renderAllSongs() {
-    refs.allSongsList.innerHTML = "";
-    const flat = [];
-    albums.forEach((a, ai) => a.songs.forEach((s, si) => flat.push({ albumIndex: ai, songIndex: si, albumName: a.nomeAlbum, albumCover: a.urlCapa, artist: a.artistaResponsavel, song: s })));
-    flat.sort((x, y) => (x.song.__raw?.id || 0) - (y.song.__raw?.id || 0));
-    if (!flat.length) { refs.allSongsList.innerHTML = `<div style="color:#cfcfcf;padding:12px">Nenhuma música cadastrada.</div>`; return; }
-    flat.forEach((o, idx) => {
-        const r = document.createElement("div"); r.className = "song-row";
-        r.innerHTML = `<div class="song-left"><div class="song-index">${idx + 1}</div><img src="${esc(o.albumCover || 'https://via.placeholder.com/100')}" class="song-cover"><div class="song-info"><p class="song-name">${esc(o.song.tituloMusica)}</p><p class="song-genre">${esc(o.song.genero)} · ${esc(o.albumName)}</p></div></div>
-    <div style="display:flex;align-items:center;gap:12px;"><div class="song-time">${esc(o.song.timeLabel)}</div><div class="song-more"><button class="more-btn">⋮</button><div class="more-menu"><button data-action="goto-album" data-album="${o.albumIndex}" data-song="${o.songIndex}">Abrir álbum</button><button data-action="edit-song" data-album="${o.albumIndex}" data-song="${o.songIndex}">Editar</button><button data-action="remove-song" data-album="${o.albumIndex}" data-song="${o.songIndex}">Excluir</button></div></div></div>`;
-        r.querySelectorAll(".more-menu button").forEach(b => b.addEventListener("click", async () => {
-            const a = Number(b.dataset.album), s = Number(b.dataset.song), act = b.dataset.action;
-            if (act === "goto-album") openAlbum(a);
-            if (act === "edit-song") openEditSong(a, s);
-            if (act === "remove-song") { if (!confirm("Excluir música?")) return; try { await apiDEL(`${MUSIC}/${albums[a].songs[s].id}`); await refreshAll(); } catch (err) { alert("Erro: " + err); } }
-        }));
-        refs.allSongsList.appendChild(r);
-    });
-}
+};
 
+window.editMusic = async function(id) {
+    const song = await apiRequest(`/musics/${id}`);
+    if (song) {
+        document.getElementById("musicId").value = song.id;
+        document.getElementById("musicName").value = song.name;
+        document.getElementById("musicGenre").value = song.genre;
+        document.getElementById("musicTime").value = song.duration;
+        if(song.album) document.getElementById("musicAlbum").value = song.album.id;
 
-function openAlbum(index) { renderAlbumSongs(index); }
-function openEditAlbum(index) {
-    const a = albums[index]; if (!a) return;
-    refs.albumEditIndex.value = index;
-    $id("modalAlbumTitle").textContent = "Editar Álbum";
-    $id("albumName").value = a.nomeAlbum;
-    $id("albumArtist").value = a.artistaResponsavel;
-    $id("albumCover").value = a.urlCapa || "";
-    openModal(refs.modalAlbum);
-}
-function openModal(m) { m.style.display = "flex"; document.body.style.overflow = "hidden"; }
-function closeModal(m) { m.style.display = "none"; document.body.style.overflow = ""; }
-document.querySelectorAll(".close").forEach(c => c.addEventListener("click", e => closeModal(document.getElementById(c.dataset.close || c.parentElement.id))));
-document.querySelectorAll("[data-close]").forEach(b => b.addEventListener("click", () => closeModal(document.getElementById(b.dataset.close))));
-
-refs.btnAddAlbum.addEventListener("click", () => { refs.albumEditIndex.value = -1; $id("modalAlbumTitle").textContent = "Criar Álbum"; $id("albumName").value = ""; $id("albumArtist").value = ""; $id("albumCover").value = ""; openModal(refs.modalAlbum); });
-
-refs.albumList.addEventListener("click", async e => {
-    const btn = e.target.closest("button"); if (!btn) return;
-    const action = btn.dataset.action, idx = Number(btn.dataset.index);
-    if (action === "delete-album") { if (!confirm("Excluir álbum e todas as músicas?")) return; try { await apiDEL(`${ALBUMS}/${albums[idx].id}`); await refreshAll(); } catch (err) { alert("Erro: " + err); } }
-    if (action === "edit-album") openEditAlbum(idx);
-});
-
-refs.btnAddMusic.addEventListener("click", () => { reloadAlbumSelect(); refs.musicEditAlbum.value = -1; refs.musicEditIndex.value = -1; $id("modalMusicTitle").textContent = "Adicionar Música"; openModal(refs.modalMusic); });
-
-refs.btnAddMusicInside.addEventListener("click", () => { const alName = refs.viewAlbumName.textContent; const idx = albums.findIndex(a => a.nomeAlbum === alName); reloadAlbumSelect(); if (idx >= 0) refs.musicAlbum.value = idx; refs.musicEditAlbum.value = -1; refs.musicEditIndex.value = -1; $id("modalMusicTitle").textContent = "Adicionar Música"; openModal(refs.modalMusic); });
-
-function openEditSong(ai, si) {
-    const s = albums[ai]?.songs[si]; if (!s) return;
-    reloadAlbumSelect(); refs.musicAlbum.value = ai; refs.musicEditAlbum.value = ai; refs.musicEditIndex.value = si;
-    $id("modalMusicTitle").textContent = "Editar Música";
-    $id("musicName").value = s.tituloMusica;
-    $id("musicGenre").value = s.genero || "POP";
-    $id("musicTime").value = s.timeLabel || "";
-    openModal(refs.modalMusic);
-}
-
-refs.btnBackAlbums.addEventListener("click", () => { refs.albumPage.style.display = "none"; updateAlbumsView(); renderAllSongs(); });
-
-refs.searchInput.addEventListener("input", () => {
-    const q = refs.searchInput.value.trim().toLowerCase();
-    document.querySelectorAll("#albumList .album-card").forEach(card => card.style.display = card.textContent.toLowerCase().includes(q) ? "" : "none");
-    document.querySelectorAll("#allSongsList .song-row").forEach(row => {
-        const name = row.querySelector(".song-name")?.textContent.toLowerCase() || "";
-        const meta = row.querySelector(".song-genre")?.textContent.toLowerCase() || "";
-        row.style.display = (name + " " + meta).includes(q) ? "" : "none";
-    });
-});
-
-refs.formAlbum.addEventListener("submit", async e => {
-    e.preventDefault();
-    const idx = Number(refs.albumEditIndex.value);
-    const nome = $id("albumName").value.trim();
-    const artista = $id("albumArtist").value.trim();
-    const cover = $id("albumCover").value.trim();
-    if (!nome || !artista) { alert("Preencha nome e artista."); return; }
-    try {
-        if (idx >= 0 && albums[idx] && albums[idx].id) {
-            await apiPUT(`${ALBUMS}/${albums[idx].id}`, { nomeAlbum: nome, artistaResponsavel: artista, urlCapa: cover });
-        } else {
-            await apiPOST(ALBUMS, { nomeAlbum: nome, artistaResponsavel: artista, urlCapa: cover });
-        }
-        closeModal(refs.modalAlbum); refs.formAlbum.reset(); refs.albumEditIndex.value = -1; await refreshAll();
-    } catch (err) { alert("Erro ao salvar álbum: " + err); }
-});
-
-refs.formMusic.addEventListener("submit", async e => {
-    e.preventDefault();
-    const albumIdx = Number(refs.musicAlbum.value);
-    const name = $id("musicName").value.trim();
-    const genre = $id("musicGenre").value || "POP";
-    const time = $id("musicTime").value.trim();
-    const editAlbum = Number(refs.musicEditAlbum.value);
-    const editSong = Number(refs.musicEditIndex.value);
-    if (isNaN(albumIdx) || !albums[albumIdx]) { alert("Selecione um álbum válido."); return; }
-    if (!name) { alert("Digite o nome da música."); return; }
-    try {
-        if (editAlbum >= 0 && albums[editAlbum] && editSong >= 0) {
-            const musicObj = albums[editAlbum].songs[editSong];
-            if (!musicObj?.id) { alert("Música sem id no servidor."); return; }
-            await apiPUT(`${MUSIC}/${musicObj.id}`, { tituloMusica: name, tempoDuracao: toSec(time), genero: genre.toUpperCase(), album: { id: albums[albumIdx].id } });
-        } else {
-            await apiPOST(MUSIC, { tituloMusica: name, tempoDuracao: toSec(time), genero: genre.toUpperCase(), album: { id: albums[albumIdx].id } });
-        }
-        closeModal(refs.modalMusic); refs.formMusic.reset(); refs.musicEditAlbum.value = -1; refs.musicEditIndex.value = -1; await refreshAll();
-    } catch (err) { alert("Erro ao salvar música: " + err); }
-});
-
-
-async function refreshAll() { await loadAlbums(); reloadAlbumSelect(); updateAlbumsView(); renderAllSongs(); }
-
-
-(async function init() { try { await refreshAll(); } catch (e) { console.error(e); } })();
+        document.getElementById("modalMusicTitle").innerText = "Editar Música";
+        openModal(modalMusic);
+    }
+};

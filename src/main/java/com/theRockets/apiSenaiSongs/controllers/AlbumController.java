@@ -36,7 +36,8 @@ public class AlbumController {
 	public List<Album> listarAlbum() {
 		return service.listarAlbum();
 	}
-
+	
+	
 	@PutMapping("/{id}")
 	public Album atualizarAlbum(@PathVariable Long id, @RequestBody Album album) {
 		album.setId(id);

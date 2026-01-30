@@ -1,23 +1,15 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Plataforma de Música</title>
+    <title>Plataforma de Música - SenaiSongs</title>
     <link rel="stylesheet" href="css/styles.css" />
-
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Staatliches&display=swap" rel="stylesheet">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Julius+Sans+One&display=swap" rel="stylesheet">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
 </head>
 
@@ -25,17 +17,17 @@
 
     <div class="sidebar">
         <div class="logo-area">
-            <img src="./img/logo.png" class="sidebar-logo" alt="Logo">
+            <img src="./img/logo.png" class="sidebar-logo" alt="Logo" onerror="this.style.display='none'">
+            <h2 style="text-align:center; color: #ff4f1f; margin:0;">ROCKETS</h2>
         </div>
 
         <nav class="menu">
-            <a href="#" class="menu-item active">Página Inicial</a>
+            <a href="#" class="menu-item active" onclick="showMainPage()">Página Inicial</a>
         </nav>
 
         <div class="sidebar-footer">
             <p>© 2025 The Rockets</p>
         </div>
-
     </div>
 
     <div class="content">
@@ -52,8 +44,7 @@
             </div>
         </header>
 
-
-        <main>
+        <main id="mainPage">
             <section id="albums-section">
                 <h2 class="section-title">Álbuns</h2>
                 <div id="albumList" class="album-grid"></div>
@@ -62,8 +53,9 @@
             <hr class="sep">
 
             <section id="all-songs-section">
-                <h2 class="section-title">Músicas</h2>
-                <div id="allSongsList" class="songs-list"></div>
+                <h2 class="section-title">Todas as Músicas</h2>
+                <div id="allSongsList" class="songs-list">
+                    </div>
             </section>
         </main>
 
@@ -71,15 +63,18 @@
             <div class="album-page-header">
                 <button id="btnBackAlbums" class="btn-back">⬅ Voltar</button>
                 <div>
-                    <h2 id="viewAlbumName"></h2>
-                    <p class="muted"><b>Artista:</b> <span id="viewAlbumArtist"></span> · <b>Total:</b> <span
-                            id="viewTotalSongs"></span></p>
+                    <h2 id="viewAlbumName">Nome do Álbum</h2>
+                    <p class="muted">
+                        <b>Artista:</b> <span id="viewAlbumArtist">Artista</span> · 
+                        <b>Ano:</b> <span id="viewAlbumYear">2025</span>
+                    </p>
                 </div>
             </div>
 
-            <button id="btnAddMusicInside" class="btn-inside">Adicionar música</button>
+            <button id="btnAddMusicInside" class="btn-inside">Adicionar música neste álbum</button>
 
-            <div id="albumSongs" class="songs-list"></div>
+            <div id="albumSongs" class="songs-list">
+                </div>
         </section>
 
     </div>
@@ -90,12 +85,16 @@
             <h3 id="modalAlbumTitle">Criar Álbum</h3>
 
             <form id="formAlbum">
-                <input type="hidden" id="albumEditIndex" value="-1">
+                <input type="hidden" id="albumId" value="">
+                
                 <label>Nome do Álbum</label>
                 <input type="text" id="albumName" required>
 
                 <label>Artista</label>
                 <input type="text" id="albumArtist" required>
+                
+                <label>Ano de Lançamento</label>
+                <input type="number" id="albumYear" placeholder="2024" required>
 
                 <label>Capa (URL)</label>
                 <input type="url" id="albumCover" placeholder="https://exemplo.com/capa.jpg">
@@ -114,29 +113,29 @@
             <h3 id="modalMusicTitle">Adicionar Música</h3>
 
             <form id="formMusic">
-                <input type="hidden" id="musicEditAlbum" value="-1">
-                <input type="hidden" id="musicEditIndex" value="-1">
+                <input type="hidden" id="musicId" value="">
 
                 <label>Álbum</label>
-                <select id="musicAlbum"></select>
+                <select id="musicAlbum" required></select>
 
                 <label>Nome da música</label>
                 <input type="text" id="musicName" required>
 
                 <label>Gênero</label>
                 <select id="musicGenre">
-                    <option>Pop</option>
-                    <option>Rock</option>
-                    <option>Trap</option>
-                    <option>Hip-Hop</option>
-                    <option>Funk</option>
-                    <option>MPB</option>
-                    <option>Eletrônica</option>
-                    <option>Samba</option>
-                    <option>Indie</option>
+                    <option value="Pop">Pop</option>
+                    <option value="Rock">Rock</option>
+                    <option value="Trap">Trap</option>
+                    <option value="Hip-Hop">Hip-Hop</option>
+                    <option value="Funk">Funk</option>
+                    <option value="MPB">MPB</option>
+                    <option value="Eletrônica">Eletrônica</option>
+                    <option value="Samba">Samba</option>
+                    <option value="Indie">Indie</option>
+                    <option value="Sertanejo">Sertanejo</option>
                 </select>
 
-                <label>Duração (opcional)</label>
+                <label>Duração (ex: 3:30)</label>
                 <input type="text" id="musicTime" placeholder="3:30">
 
                 <div class="modal-actions">
@@ -147,7 +146,6 @@
         </div>
     </div>
 
-    <script src="script/script.js"></script>
+    <script src="js/script.js"></script>
 </body>
-
 </html>

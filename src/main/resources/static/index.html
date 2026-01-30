@@ -46,7 +46,7 @@
 
         <main id="mainPage">
             <section id="albums-section">
-                <h2 class="section-title">Álbuns</h2>
+                <h2 class="section-title">Álbuns Recentes</h2>
                 <div id="albumList" class="album-grid"></div>
             </section>
 
@@ -54,8 +54,7 @@
 
             <section id="all-songs-section">
                 <h2 class="section-title">Todas as Músicas</h2>
-                <div id="allSongsList" class="songs-list">
-                    </div>
+                <div id="allSongsList" class="songs-list"></div>
             </section>
         </main>
 
@@ -66,13 +65,12 @@
                     <h2 id="viewAlbumName">Nome do Álbum</h2>
                     <p class="muted">
                         <b>Artista:</b> <span id="viewAlbumArtist">Artista</span> · 
-                        <b>Ano:</b> <span id="viewAlbumYear">2025</span>
+                        <b>Total:</b> <span id="viewTotalSongs">0 músicas</span>
                     </p>
                 </div>
             </div>
 
-            <button id="btnAddMusicInside" class="btn-inside">Adicionar música neste álbum</button>
-
+            <button id="btnAddMusic" onclick="document.getElementById('btnAddMusic').click()" class="btn-inside" style="display:none">Adicionar aqui</button>
             <div id="albumSongs" class="songs-list">
                 </div>
         </section>
@@ -85,19 +83,16 @@
             <h3 id="modalAlbumTitle">Criar Álbum</h3>
 
             <form id="formAlbum">
-                <input type="hidden" id="albumId" value="">
+                <input type="hidden" id="albumId">
                 
                 <label>Nome do Álbum</label>
                 <input type="text" id="albumName" required>
 
-                <label>Artista</label>
+                <label>Artista Principal</label>
                 <input type="text" id="albumArtist" required>
                 
-                <label>Ano de Lançamento</label>
-                <input type="number" id="albumYear" placeholder="2024" required>
-
-                <label>Capa (URL)</label>
-                <input type="url" id="albumCover" placeholder="https://exemplo.com/capa.jpg">
+                <label>Capa (URL da Imagem)</label>
+                <input type="url" id="albumCover" placeholder="https://...">
 
                 <div class="modal-actions">
                     <button type="submit" class="btn-save">Salvar</button>
@@ -113,23 +108,26 @@
             <h3 id="modalMusicTitle">Adicionar Música</h3>
 
             <form id="formMusic">
-                <input type="hidden" id="musicId" value="">
+                <input type="hidden" id="musicId">
 
-                <label>Álbum</label>
+                <label>Pertence ao Álbum:</label>
                 <select id="musicAlbum" required></select>
 
-                <label>Nome da música</label>
+                <label>Nome da Música</label>
                 <input type="text" id="musicName" required>
 
+                <label>Gênero</label>
                 <select id="musicGenre">
-    <option value="POP">Pop</option>
-    <option value="ROCK">Rock</option>
-    <option value="TRAP">Trap</option>
-    <option value="HIP_HOP">Hip-Hop</option>
-    </select>
+                    <option value="POP">Pop</option>
+                    <option value="ROCK">Rock</option>
+                    <option value="TRAP">Trap</option>
+                    <option value="HIP_HOP">Hip-Hop</option>
+                    <option value="INDIE">Indie</option>
+                    <option value="SERTANEJO">Sertanejo</option>
+                </select>
 
-<label>Duração (em minutos inteiros)</label>
-<input type="number" id="musicTime" placeholder="3">
+                <label>Duração (em segundos)</label>
+                <input type="number" id="musicTime" placeholder="Ex: 180 (para 3 min)" required>
 
                 <div class="modal-actions">
                     <button type="submit" class="btn-save">Salvar</button>

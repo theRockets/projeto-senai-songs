@@ -1,12 +1,23 @@
 * { box-sizing: border-box; }
 
+/* 1. Ajuste de Fonte para legibilidade */
 body {
     margin: 0;
-    font-family: "Archivo Black", sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fonte mais limpa para leitura */
     background: #12080c;
     color: #fff;
     -webkit-font-smoothing: antialiased;
 }
+
+h1, h2, h3, h4, button {
+    font-family: "Archivo Black", sans-serif; /* Fonte de impacto para títulos */
+}
+
+/* 2. Scrollbar Personalizada */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #12080c; }
+::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #ff4f1f; }
 
 /* Sidebar */
 .sidebar {
@@ -44,6 +55,8 @@ body {
     border-radius: 8px;
     transition: .15s;
     cursor: pointer;
+    font-family: sans-serif; /* Menu mais legível */
+    font-weight: 600;
 }
 
 .menu-item:hover, .menu-item.active {
@@ -77,7 +90,7 @@ header {
     margin-bottom: 20px;
 }
 
-header h1 { margin: 0; font-size: 20px; }
+header h1 { margin: 0; font-size: 24px; letter-spacing: 1px; }
 
 .header-right {
     display: flex;
@@ -86,14 +99,14 @@ header h1 { margin: 0; font-size: 20px; }
 }
 
 #searchInput {
-    padding: 10px 14px;
-    border-radius: 12px;
+    padding: 12px 14px;
+    border-radius: 8px;
     border: none;
     width: 300px;
-    background: #1f0611;
+    background: #000;
     color: #fff;
     outline: none;
-    border: 1px solid transparent;
+    border: 1px solid #333;
 }
 #searchInput:focus { border-color: #ff4f1f; }
 
@@ -103,21 +116,23 @@ header h1 { margin: 0; font-size: 20px; }
     background: linear-gradient(135deg, #281618, #300f21);
     border: 1px solid #ff4f1f;
     padding: 10px 16px;
-    border-radius: 14px;
-    font-weight: 700;
+    border-radius: 8px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
     color: #fff;
     cursor: pointer;
     transition: 0.2s;
+    font-size: 14px;
 }
 .actions-inline button:hover, .btn-inside:hover { background: #ff4f1f; }
 
 /* Albums Grid */
-.section-title { color: #ff6b34; margin: 18px 0 12px; }
+.section-title { color: #ff6b34; margin: 25px 0 15px; font-size: 22px; }
 
 .album-grid {
     display: flex;
-    gap: 18px;
-    flex-wrap: wrap; /* Importante para não quebrar layout */
+    gap: 20px;
+    flex-wrap: wrap;
     padding-bottom: 8px;
 }
 
@@ -125,34 +140,36 @@ header h1 { margin: 0; font-size: 20px; }
     width: 180px;
     background: #1a1417;
     border-radius: 12px;
-    padding: 10px;
+    padding: 12px;
     position: relative;
     border: 1px solid #2a2226;
-    transition: transform .15s, box-shadow .15s;
+    transition: transform .2s, box-shadow .2s;
+    cursor: pointer;
 }
 
 .album-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, .6);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, .5);
+    border-color: #ff4f1f;
 }
 
 .album-cover {
     width: 100%;
-    height: 160px;
+    height: 150px;
     object-fit: cover;
-    border-radius: 10px;
-    background-color: #333; /* Fallback se imagem quebrar */
+    border-radius: 8px;
+    background-color: #333;
 }
 
-.album-info { margin-top: 8px; }
-.album-info h3 { margin: 0; font-size: 15px; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
-.album-info p { margin: 2px 0 0; color: #cfcfcf; font-size: 13px; }
+.album-info { margin-top: 10px; }
+.album-info h3 { margin: 0; font-size: 16px; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: sans-serif; font-weight: 700; }
+.album-info p { margin: 4px 0 0; color: #cfcfcf; font-size: 13px; font-family: sans-serif; }
 
 /* Botões de editar/excluir no card */
 .album-options {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 15px;
+    right: 15px;
     display: flex;
     gap: 5px;
     opacity: 0;
@@ -161,63 +178,74 @@ header h1 { margin: 0; font-size: 20px; }
 .album-card:hover .album-options { opacity: 1; }
 
 .btn-icon {
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.8);
     border: none;
     color: white;
-    width: 30px;
-    height: 30px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 14px;
+    transition: 0.2s;
 }
-.btn-icon:hover { background: #ff4f1f; }
+.btn-icon:hover { background: #ff4f1f; transform: scale(1.1); }
 
 .sep {
     border: 0; height: 1px;
     background: linear-gradient(90deg, rgba(255, 255, 255, 0), #2b1a1a, rgba(255, 255, 255, 0));
-    margin: 25px 0;
+    margin: 30px 0;
 }
 
 /* Listas de Músicas */
-.songs-list { display: flex; flex-direction: column; gap: 10px; }
+.songs-list { display: flex; flex-direction: column; gap: 8px; }
 
 .song-row {
-    background: #1c1417;
-    padding: 10px 16px;
+    background: #181214;
+    padding: 12px 16px;
     border-radius: 8px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border: 1px solid #2d1d21;
+    border: 1px solid transparent;
     transition: 0.2s;
 }
-.song-row:hover { background: #261a1f; border-color: #ff4f1f; }
+.song-row:hover { background: #221a1d; border-color: #442a33; }
 
-.song-left { display: flex; gap: 14px; align-items: center; }
-.song-cover { width: 40px; height: 40px; object-fit: cover; border-radius: 6px; }
+.song-left { display: flex; gap: 15px; align-items: center; }
+
+/* 3. Estilo que faltava para o índice */
+.song-index {
+    color: #666;
+    font-weight: bold;
+    width: 20px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.song-cover { width: 45px; height: 45px; object-fit: cover; border-radius: 6px; }
 .song-info { display: flex; flex-direction: column; }
-.song-name { font-weight: 600; font-size: 15px; margin: 0; }
-.song-genre { margin: 2px 0 0; color: #999; font-size: 12px; }
+.song-name { font-weight: 700; font-size: 15px; margin: 0; font-family: sans-serif; }
+.song-genre { margin: 3px 0 0; color: #999; font-size: 12px; }
 
 .song-actions { display: flex; gap: 10px; align-items: center; }
 .btn-small {
-    background: transparent; border: 1px solid #444; color: #ccc;
-    padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 12px;
+    background: transparent; border: 1px solid #444; color: #aaa;
+    padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600;
 }
 .btn-small:hover { background: #fff; color: #000; }
-.btn-delete { border-color: #ff4f1f; color: #ff4f1f; }
-.btn-delete:hover { background: #ff4f1f; color: white; }
+.btn-delete { border-color: #722626; color: #ff6b6b; }
+.btn-delete:hover { background: #ff4f1f; color: white; border-color: #ff4f1f; }
 
 /* Modais */
 .modal {
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(5px);
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(4px);
     justify-content: center;
     align-items: center;
     z-index: 200;
@@ -225,27 +253,45 @@ header h1 { margin: 0; font-size: 20px; }
 .modal.show { display: flex; }
 
 .modal-content {
-    background: #211a1d;
-    padding: 25px;
-    border-radius: 14px;
-    width: 400px;
-    border: 1px solid #ff4f1f;
-    box-shadow: 0 0 20px rgba(255, 79, 31, 0.2);
+    background: #1c1417;
+    padding: 30px;
+    border-radius: 16px;
+    width: 420px;
+    border: 1px solid #333;
+    box-shadow: 0 0 30px rgba(0,0,0,0.8);
+    position: relative; /* Importante para o X funcionar */
 }
+
+/* 4. Estilo do X que faltava */
+.close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 28px;
+    color: #666;
+    cursor: pointer;
+    line-height: 1;
+}
+.close:hover { color: #fff; }
 
 .modal input, .modal select {
-    width: 100%; padding: 10px; border-radius: 8px;
-    border: 1px solid #444; background: #12080c; color: white;
-    margin-bottom: 12px; margin-top: 5px;
+    width: 100%; padding: 12px; border-radius: 8px;
+    border: 1px solid #444; background: #0a0507; color: white;
+    margin-bottom: 15px; margin-top: 6px; outline: none;
 }
-.modal label { font-size: 14px; color: #ccc; }
+.modal input:focus, .modal select:focus { border-color: #ff4f1f; }
+.modal label { font-size: 13px; color: #bbb; font-weight: 600; font-family: sans-serif;}
 
-.modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 15px; }
-.btn-save { background: #3aff8c; color: #000; padding: 10px 20px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
-.btn-cancel { background: #444; color: #fff; padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; }
+.modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px; }
+.btn-save { background: #ff4f1f; color: #fff; padding: 10px 24px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: .2s;}
+.btn-save:hover { background: #ff6b45; }
+.btn-cancel { background: transparent; color: #ccc; padding: 10px 20px; border: 1px solid #444; border-radius: 8px; cursor: pointer; }
+.btn-cancel:hover { border-color: #fff; color: #fff; }
 
 /* Página do Álbum */
-.album-page-header { display: flex; gap: 20px; align-items: center; margin-bottom: 20px; }
-.btn-back { background: transparent; color: #ff4f1f; border: 1px solid #ff4f1f; padding: 8px 16px; border-radius: 8px; cursor: pointer; }
+.album-page-header { display: flex; gap: 20px; align-items: center; margin-bottom: 30px; }
+.btn-back { background: transparent; color: #ff4f1f; border: 1px solid #ff4f1f; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: .2s; }
 .btn-back:hover { background: #ff4f1f; color: white; }
-
+.muted { color: #888; margin-top: 5px; font-size: 14px; }
+.muted b { color: #ccc; margin-left: 10px; }
+.muted b:first-child { margin-left: 0; }

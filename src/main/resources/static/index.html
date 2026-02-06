@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Plataforma de Música - SenaiSongs</title>
+    
     <link rel="stylesheet" href="css/styles.css" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,12 +18,11 @@
 
     <div class="sidebar">
         <div class="logo-area">
-            <img src="./img/logo.png" class="sidebar-logo" alt="Logo" onerror="this.style.display='none'">
-            <h2 style="text-align:center; color: #ff4f1f; margin:0;">ROCKETS</h2>
+            <h2 style="text-align:center; color: #ff4f1f; margin:0; font-size: 28px;">ROCKETS</h2>
         </div>
 
         <nav class="menu">
-            <a href="#" class="menu-item active" onclick="showMainPage()">Página Inicial</a>
+            <a href="#" class="menu-item active" id="btnHome" onclick="showMainPage()">Página Inicial</a>
         </nav>
 
         <div class="sidebar-footer">
@@ -35,7 +35,7 @@
             <h1>SenaiSongs</h1>
 
             <div class="header-right">
-                <input type="text" id="searchInput" placeholder="Pesquisar músicas e álbuns..." />
+                <input type="text" id="searchInput" placeholder="Pesquisar álbuns..." />
 
                 <div class="actions-inline">
                     <button id="btnAddAlbum">Criar Álbum</button>
@@ -46,8 +46,14 @@
 
         <main id="mainPage">
             <section id="albums-section">
+<<<<<<< Updated upstream
                 <h2 class="section-title">Álbuns Recentes</h2>
                 <div id="albumList" class="album-grid"></div>
+=======
+                <h2 class="section-title">Álbuns</h2>
+                <div id="albumList" class="album-grid">
+                    </div>
+>>>>>>> Stashed changes
             </section>
 
             <hr class="sep">
@@ -64,6 +70,7 @@
                 <div>
                     <h2 id="viewAlbumName">Nome do Álbum</h2>
                     <p class="muted">
+<<<<<<< Updated upstream
                         <b>Artista:</b> <span id="viewAlbumArtist">Artista</span> · 
                         <b>Total:</b> <span id="viewTotalSongs">0 músicas</span>
                     </p>
@@ -71,6 +78,13 @@
             </div>
 
             <button id="btnAddMusic" onclick="document.getElementById('btnAddMusic').click()" class="btn-inside" style="display:none">Adicionar aqui</button>
+=======
+                        <b>Artista:</b> <span id="viewAlbumArtist">Artista</span>
+                    </p>
+                </div>
+            </div>
+            
+>>>>>>> Stashed changes
             <div id="albumSongs" class="songs-list">
                 </div>
         </section>
@@ -80,7 +94,7 @@
     <div class="modal" id="modalAlbum">
         <div class="modal-content">
             <span class="close" data-close="modalAlbum">&times;</span>
-            <h3 id="modalAlbumTitle">Criar Álbum</h3>
+            <h3 id="modalAlbumTitle">Gerenciar Álbum</h3>
 
             <form id="formAlbum">
                 <input type="hidden" id="albumId">
@@ -105,12 +119,16 @@
     <div class="modal" id="modalMusic">
         <div class="modal-content">
             <span class="close" data-close="modalMusic">&times;</span>
-            <h3 id="modalMusicTitle">Adicionar Música</h3>
+            <h3 id="modalMusicTitle">Gerenciar Música</h3>
 
             <form id="formMusic">
                 <input type="hidden" id="musicId">
 
+<<<<<<< Updated upstream
                 <label>Pertence ao Álbum:</label>
+=======
+                <label>Álbum Pertencente</label>
+>>>>>>> Stashed changes
                 <select id="musicAlbum" required></select>
 
                 <label>Nome da Música</label>
@@ -123,11 +141,21 @@
                     <option value="TRAP">Trap</option>
                     <option value="HIP_HOP">Hip-Hop</option>
                     <option value="INDIE">Indie</option>
+<<<<<<< Updated upstream
                     <option value="SERTANEJO">Sertanejo</option>
                 </select>
 
                 <label>Duração (em segundos)</label>
                 <input type="number" id="musicTime" placeholder="Ex: 180 (para 3 min)" required>
+=======
+                    <option value="METAL">Metal</option>
+                    <option value="SERTANEJO">Sertanejo</option>
+                    <option value="ELETRONICA">Eletrônica</option>
+                </select>
+
+                <label>Duração (minutos)</label>
+                <input type="number" id="musicTime" placeholder="3" required>
+>>>>>>> Stashed changes
 
                 <div class="modal-actions">
                     <button type="submit" class="btn-save">Salvar</button>

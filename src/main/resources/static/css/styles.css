@@ -2,6 +2,7 @@
 * { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
 
 body {
+<<<<<<< Updated upstream
     margin: 0; background: #0f0f0f; color: #fff;
     display: flex; min-height: 100vh;
 }
@@ -21,8 +22,38 @@ h1, h2, h3, .section-title { font-family: "Archivo Black", sans-serif; text-tran
     display: block; padding: 12px; color: #fff; text-decoration: none;
     background: #ff4f1f; border-radius: 8px; font-weight: bold; margin-top: 20px;
     text-align: center;
+=======
+    margin: 0;
+    font-family: "Julius Sans One", sans-serif;
+    background: #12080c;
+    color: #fff;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
 }
 
+h1, h2, h3 { font-family: "Archivo Black", sans-serif; }
+
+/* Sidebar */
+.sidebar {
+    position: fixed;
+    left: 0; top: 0;
+    width: 220px; height: 100vh;
+    background-color: #141414;
+    padding: 20px;
+    display: flex; flex-direction: column; gap: 26px;
+    border-right: 1px solid #2c2c2c;
+    z-index: 100;
+}
+.menu { display: flex; flex-direction: column; gap: 12px; margin-top: 6px; }
+.menu-item {
+    color: #b5b5b5; text-decoration: none; padding: 10px 14px;
+    border-radius: 8px; transition: .15s; font-weight: bold; font-size: 14px;
+>>>>>>> Stashed changes
+}
+.menu-item:hover, .menu-item.active { background: #ff4f1f; color: white; box-shadow: 0 4px 15px rgba(255, 79, 31, 0.3); }
+.sidebar-footer { margin-top: auto; padding: 14px 10px; text-align: center; color: #8c8c8c; font-size: 12px; border-top: 1px solid #2c2c2c; }
+
+<<<<<<< Updated upstream
 .sidebar-footer { color: #555; font-size: 12px; text-align: center; }
 
 /* 3. Main Content */
@@ -36,8 +67,22 @@ header {
 header h1 { color: #fff; font-size: 32px; margin: 0; }
 
 .header-right { display: flex; gap: 15px; align-items: center; }
+=======
+/* Content */
+.content { margin-left: 220px; padding: 20px 40px 80px 40px; width: calc(100% - 220px); }
 
+header {
+    background: linear-gradient(90deg, #211a1d 0%, #1a0d10 100%);
+    padding: 18px 22px; display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 2px solid #ef5929; border-radius: 6px; margin-bottom: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+header h1 { margin: 0; font-size: 24px; letter-spacing: 1px; }
+>>>>>>> Stashed changes
+
+.header-right { display: flex; align-items: center; gap: 15px; }
 #searchInput {
+<<<<<<< Updated upstream
     background: #000; border: 1px solid #333; color: #fff;
     padding: 10px 15px; border-radius: 8px; width: 300px;
 }
@@ -105,3 +150,73 @@ header h1 { color: #fff; font-size: 32px; margin: 0; }
 .modal-content { background: #1a1a1a; padding: 30px; border-radius: 15px; width: 400px; border: 1px solid #333; }
 .modal input, .modal select { width: 100%; padding: 12px; margin: 10px 0 20px; background: #000; border: 1px solid #333; color: #fff; border-radius: 8px; }
 .btn-save { background: #ff4f1f; color: #fff; border: none; padding: 12px; border-radius: 8px; width: 100%; cursor: pointer; font-weight: bold; }
+=======
+    padding: 12px 18px; border-radius: 20px; border: 1px solid #333; width: 280px;
+    background: #0a0406; color: #fff; outline: none; transition: 0.3s;
+}
+#searchInput:focus { border-color: #ff4f1f; box-shadow: 0 0 10px rgba(255, 79, 31, 0.2); }
+
+.actions-inline { display: flex; gap: 10px; }
+.actions-inline button {
+    background: linear-gradient(135deg, #281618, #300f21);
+    border: 1px solid #ff4f1f; padding: 10px 20px; border-radius: 20px;
+    font-weight: 700; color: #fff; cursor: pointer; transition: 0.2s;
+    font-family: "Julius Sans One", sans-serif; text-transform: uppercase; font-size: 12px;
+}
+.actions-inline button:hover { background: #ff4f1f; transform: translateY(-2px); }
+
+/* Grid */
+.section-title { color: #fff; border-left: 4px solid #ff4f1f; padding-left: 15px; margin: 30px 0 20px; font-size: 22px; }
+.album-grid { display: flex; gap: 25px; flex-wrap: wrap; padding-bottom: 8px; }
+
+.album-card {
+    width: 200px; background: #1a1417; border-radius: 12px; padding: 12px;
+    position: relative; border: 1px solid #2a2226; transition: transform .2s, box-shadow .2s;
+}
+.album-card:hover { transform: translateY(-8px); box-shadow: 0 10px 40px rgba(0, 0, 0, .8); border-color: #ff4f1f; }
+.album-cover { width: 100%; height: 180px; object-fit: cover; border-radius: 8px; background-color: #333; }
+.album-info { margin-top: 12px; }
+.album-info h3 { margin: 0; font-size: 16px; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
+.album-info p { margin: 4px 0 0; color: #999; font-size: 13px; font-weight: bold; }
+
+.album-options { position: absolute; top: 18px; right: 18px; display: flex; gap: 8px; opacity: 0; transition: 0.2s; }
+.album-card:hover .album-options { opacity: 1; }
+.btn-icon { background: rgba(0,0,0,0.8); border: 1px solid #555; color: white; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+.btn-icon:hover { background: #ff4f1f; border-color: #ff4f1f; transform: scale(1.1); }
+
+/* Songs */
+.songs-list { display: flex; flex-direction: column; gap: 12px; }
+.song-row {
+    background: rgba(28, 20, 23, 0.6); padding: 12px 20px; border-radius: 8px;
+    display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 1px solid #2d1d21; transition: 0.2s;
+}
+.song-row:hover { background: #261a1f; border-color: #ff4f1f; transform: translateX(5px); }
+
+.song-left { display: flex; gap: 16px; align-items: center; }
+.song-cover { width: 45px; height: 45px; object-fit: cover; border-radius: 4px; }
+.song-name { font-weight: 600; font-size: 16px; margin: 0; color: #fff; }
+.song-genre { margin: 4px 0 0; color: #888; font-size: 12px; text-transform: uppercase; }
+
+.song-actions { display: flex; gap: 15px; align-items: center; color: #666; font-size: 14px; }
+.btn-small { background: transparent; border: 1px solid #555; color: #ccc; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 11px; text-transform: uppercase; }
+.btn-small:hover { background: #fff; color: #000; }
+.btn-delete { border-color: #aa3333; color: #aa3333; }
+.btn-delete:hover { background: #ff3333; color: white; border-color: #ff3333; }
+
+/* Modals */
+.modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); justify-content: center; align-items: center; z-index: 200; }
+.modal.show { display: flex; }
+.modal-content { background: #1a1416; padding: 30px; border-radius: 16px; width: 420px; border: 1px solid #333; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+.modal input, .modal select { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #333; background: #0c0507; color: white; margin-bottom: 15px; margin-top: 8px; font-size: 14px; }
+.modal label { font-size: 13px; color: #aaa; font-weight: bold; text-transform: uppercase; }
+.modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
+.btn-save { background: #ff4f1f; color: #fff; padding: 10px 24px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+.btn-cancel { background: transparent; color: #888; padding: 10px 20px; border: 1px solid #444; border-radius: 6px; cursor: pointer; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: #0c0507; }
+::-webkit-scrollbar-thumb { background: #333; border-radius: 5px; }
+::-webkit-scrollbar-thumb:hover { background: #ff4f1f; }
+>>>>>>> Stashed changes
